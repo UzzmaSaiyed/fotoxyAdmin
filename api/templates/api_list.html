@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Common styles for both admin interface and API list */
+        .custom-background {
+            background-image: url('images/a.jpg'); /* Replace 'images/a.jpg' with your actual image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding-top: 50px; /* Add some padding from the top */
+            color: #fff; /* Set text color to white for better visibility */
+        }
+
+        .container {
+            text-align: center; /* Center align content within container */
+        }
+
+        .page-title {
+            margin-top: 50px; /* Add margin to push the title down */
+            font-size: 3rem; /* Increase font size for better visibility */
+            font-weight: bold; /* Add bold font weight */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+            animation: fadeIn 2s ease-in-out; /* Apply fade-in animation */
+        }
+
+        .list-group-item {
+            margin-bottom: 15px; /* Add margin between each list item */
+            animation: fadeIn 2s ease-in-out; /* Apply fade-in animation */
+        }
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0; /* Start with 0 opacity */
+            }
+            to {
+                opacity: 1; /* Fade to full opacity */
+            }
+        }
+    </style>
+</head>
+<body class="custom-background">
+    <div class="container">
+        <h1 class="page-title">API List</h1>
+        <ul class="list-group">
+            <!-- Link for admin interface -->
+            <li><a href="{% url 'admin:index' %}" class="list-group-item">Admin</a></li>
+            <!-- Links for API list -->
+            {% for pattern in url_patterns %}
+                <li class="list-group-item"><a href="{{ pattern.pattern }}">{{ pattern.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+    <!-- jQuery (Optional for Bootstrap's JavaScript plugins) -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+</body>
+</html>
