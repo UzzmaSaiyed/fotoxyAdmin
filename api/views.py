@@ -23,8 +23,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_text
-
-
+import logging
+logger = logging.getLogger(__name__)
 
 def api_list(request):
     # Get the URL resolver for the project
@@ -389,33 +389,69 @@ def send_reset_password_email(email, reset_link):
 # @login_required
 
 
+# def reset_password(request, uidb64, token):
+#     uid = force_text(urlsafe_base64_decode(uidb64))
+#     user = User.objects.filter(pk=uid).first()  # Use filter() and first() to avoid raising an exception
+#     photographer = Photographer.objects.filter(pk=uid).first()  # Assuming Photographer is your model
+
+#     if user:
+#         model_instance = user
+#     elif photographer:
+#         model_instance = photographer
+#     else:
+#         return HttpResponseBadRequest("Invalid user or photographer")  # Handle the case where neither user nor photographer is found
+
+#     if request.method == 'POST':
+#         password = request.POST.get('password')
+#         confirm_password = request.POST.get('confirm_password')
+
+#         if password == confirm_password:
+#             # Check if the provided password matches the user's current hashed password
+#             if check_password(confirm_password, model_instance.password):
+#                 return HttpResponseBadRequest("New password should be different from the current password.")
+#             else:
+#                 # Proceed with setting the new password
+#                 model_instance.set_password(password)
+#                 model_instance.save()
+#                 return redirect('password_reset_done')
+#         else:
+#             return HttpResponseBadRequest("Passwords don't match")
+#     return render(request, 'reset_password.html')
+
+
 def reset_password(request, uidb64, token):
     uid = force_text(urlsafe_base64_decode(uidb64))
-    user = User.objects.filter(pk=uid).first()  # Use filter() and first() to avoid raising an exception
-    photographer = Photographer.objects.filter(pk=uid).first()  # Assuming Photographer is your model
+    user = User.objects.filter(username=uid).first()  # Assuming username is used as the ID
+    photographer = Photographer.objects.filter(pusername=uid).first()
 
     if user:
         model_instance = user
     elif photographer:
         model_instance = photographer
     else:
-        return HttpResponseBadRequest("Invalid user or photographer")  # Handle the case where neither user nor photographer is found
+        return HttpResponseBadRequest("Invalid user or photographer")
 
     if request.method == 'POST':
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
-        if password == confirm_password:
-            # Check if the provided password matches the user's current hashed password
-            if check_password(confirm_password, model_instance.password):
-                return HttpResponseBadRequest("New password should be different from the current password.")
-            else:
-                # Proceed with setting the new password
-                model_instance.set_password(password)
-                model_instance.save()
-                return redirect('password_reset_done')
-        else:
+        if not password or not confirm_password:
+            return HttpResponseBadRequest("Password fields cannot be empty")
+
+        if password != confirm_password:
             return HttpResponseBadRequest("Passwords don't match")
+
+        # Check if the new password is different from the current password
+        if check_password(password,model_instance.password):
+            return HttpResponseBadRequest("New password should be different from the current password.")
+
+        # Set the new password and save the model instance
+        model_instance.updatepassword(password)
+        model_instance.save()
+        # logger.debug(f"Password: {password}, Hashed Password: {model_instance.password}")
+
+        return redirect('password_reset_done')
+
     return render(request, 'reset_password.html')
 
 def password_reset_done_view(request):

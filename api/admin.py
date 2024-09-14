@@ -26,7 +26,7 @@ class UserAdmin(admin.ModelAdmin):
 
 #Photographer
 class PhotographerAdmin(admin.ModelAdmin):
-    list_display = ['pusername','firstname','lastname','mobile_no','streetname','city','pincode','state','email','document','password','other','submitted_at','approval_status']
+    list_display = ['pusername','firstname','lastname','mobile_no','streetname','city','pincode','state','email','experience','document','password','other','submitted_at','approval_status']
     actions = ['approve_photographer', 'reject_photographer']
 
     def approve_photographer(self, request, queryset):

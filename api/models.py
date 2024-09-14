@@ -16,12 +16,13 @@ class Photographer(models.Model):
     pusername = models.CharField(db_column='PUSERNAME', primary_key=True, max_length=30)
     firstname = models.CharField(db_column='FIRSTNAME', max_length=30)
     lastname = models.CharField(db_column='LASTNAME', max_length=30)
-    mobile_no = models.IntegerField(db_column='MOBILE_NO')
+    mobile_no = models.BigIntegerField(db_column='MOBILE_NO')
     streetname = models.CharField(db_column='STREETNAME', max_length=100)
     city = models.CharField(db_column='CITY', max_length=50)
     pincode = models.IntegerField(db_column='PINCODE')
     state = models.CharField(db_column='STATE', max_length=50)
     email = models.EmailField(db_column='EMAIL_ID', max_length=100)
+    experience = models.IntegerField(db_column='EXPERIENCE')  # Field name made lowercase.
     #document = models.BinaryField(db_column='DOCUMENT')  # BinaryField to store image data directly in the database
     document = models.FileField(db_column='DOCUMENT',upload_to='images/')
     password = models.CharField(db_column='P_PASSWORD', max_length=100)
@@ -33,6 +34,8 @@ class Photographer(models.Model):
    
     # USERNAME_FIELD = 'pusername'
 
+    def updatepassword(self,raw_password):
+        self.password = raw_password
     
     def save(self, *args, **kwargs):
         if self.password:
@@ -57,7 +60,7 @@ class User(models.Model):
     mobile_no = models.BigIntegerField(db_column='MOBILE_NO')  # Field name made lowercase.
     email = models.EmailField(db_column='EMAIL_ID', max_length=100)  # Field name made lowercase.
     password = models.CharField(db_column='USER_PASSWORD', max_length=100)  # Field name made lowercase.
-    # experience = models.IntegerField(db_column='EXPERIENCE')  # Field name made lowercase.
+    
     other = models.CharField(db_column='OTHER', max_length=200)
     submitted_at = models.DateTimeField(auto_now_add=True)
     approval_status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')], default='pending') # Field name made lowercase.
@@ -67,6 +70,9 @@ class User(models.Model):
 
     
     # USERNAME_FIELD = 'email'
+
+    def updatepassword(self,raw_password):
+        self.password = raw_password
     
     def save(self, *args, **kwargs):
         if self.password:
