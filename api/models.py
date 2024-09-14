@@ -54,7 +54,7 @@ class User(models.Model):
     username = models.CharField(db_column='USERNAME', primary_key=True, max_length=30)  # Field name made lowercase.
     firstname = models.CharField(db_column='FIRSTNAME', max_length=30)  # Field name made lowercase.
     lastname = models.CharField(db_column='LASTNAME', max_length=30)  # Field name made lowercase.
-    mobile_no = models.IntegerField(db_column='MOBILE_NO')  # Field name made lowercase.
+    mobile_no = models.BigIntegerField(db_column='MOBILE_NO')  # Field name made lowercase.
     email = models.EmailField(db_column='EMAIL_ID', max_length=100)  # Field name made lowercase.
     password = models.CharField(db_column='USER_PASSWORD', max_length=100)  # Field name made lowercase.
     # experience = models.IntegerField(db_column='EXPERIENCE')  # Field name made lowercase.

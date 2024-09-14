@@ -22,7 +22,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
 from django.utils.http import urlsafe_base64_decode
-from django.utils.encoding import force_str
+from django.utils.encoding import force_text
 
 
 
@@ -390,7 +390,7 @@ def send_reset_password_email(email, reset_link):
 
 
 def reset_password(request, uidb64, token):
-    uid = force_str(urlsafe_base64_decode(uidb64))
+    uid = force_text(urlsafe_base64_decode(uidb64))
     user = User.objects.filter(pk=uid).first()  # Use filter() and first() to avoid raising an exception
     photographer = Photographer.objects.filter(pk=uid).first()  # Assuming Photographer is your model
 
