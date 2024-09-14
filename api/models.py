@@ -57,13 +57,13 @@ class User(models.Model):
     mobile_no = models.IntegerField(db_column='MOBILE_NO')  # Field name made lowercase.
     email = models.EmailField(db_column='EMAIL_ID', max_length=100)  # Field name made lowercase.
     password = models.CharField(db_column='USER_PASSWORD', max_length=100)  # Field name made lowercase.
-    experience = models.IntegerField(db_column='EXPERIENCE')  # Field name made lowercase.
+    # experience = models.IntegerField(db_column='EXPERIENCE')  # Field name made lowercase.
     other = models.CharField(db_column='OTHER', max_length=200)
     submitted_at = models.DateTimeField(auto_now_add=True)
     approval_status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')], default='pending') # Field name made lowercase.
     id=models.IntegerField(null=True)
     last_login = models.DateTimeField(auto_now=True)
-    get_email_field_name=models.CharField(max_length=200,null=True)
+    # get_email_field_name=models.CharField(max_length=200,null=True)
 
     
     # USERNAME_FIELD = 'email'

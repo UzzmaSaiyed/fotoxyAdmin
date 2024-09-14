@@ -15,7 +15,7 @@ from .models import *
 
 #User
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username','firstname','lastname','mobile_no','email','password','experience','other','submitted_at','approval_status']
+    list_display = ['username','firstname','lastname','mobile_no','email','password','other','submitted_at','approval_status']
     actions = ['approve_user', 'reject_user']
 
     def approve_user(self, request, queryset):
